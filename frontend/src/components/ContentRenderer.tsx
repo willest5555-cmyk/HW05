@@ -40,7 +40,7 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
           case "image":
             return (
               <figure key={index} className="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/50 shadow-2xl my-8 transition-transform hover:-translate-y-1 duration-300">
-                <img src={`http://localhost:8000${block.url}`} alt={block.caption} className="w-full h-auto rounded-xl block" />
+                <img src={`${block.url}`} alt={block.caption} className="w-full h-auto rounded-xl block" />
                 <figcaption className="text-center mt-4 text-slate-400 text-sm">{block.caption}</figcaption>
               </figure>
             );

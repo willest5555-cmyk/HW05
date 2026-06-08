@@ -63,7 +63,7 @@ export default function InteractiveLab({ topicId }: InteractiveLabProps) {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`http://localhost:8000/api/interactive/${topicId}`, {
+      const res = await fetch(`/api/interactive/${topicId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -77,7 +77,7 @@ export default function InteractiveLab({ topicId }: InteractiveLabProps) {
       }
       
       const data = await res.json();
-      data.image_url = `http://localhost:8000${data.image_url}?t=${new Date().getTime()}`;
+      data.image_url = `${data.image_url}?t=${new Date().getTime()}`;
       setResult(data);
     } catch (err: any) {
       setError(err.message);
@@ -301,13 +301,13 @@ export default function InteractiveLab({ topicId }: InteractiveLabProps) {
 
           {/* Download Buttons */}
           <div className="flex flex-wrap gap-4 pt-4 border-t border-slate-700/50">
-            <a href={`http://localhost:8000${result.csv_data_url}`} download className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition-colors text-sm border border-slate-600">
+            <a href={`${result.csv_data_url}`} download className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition-colors text-sm border border-slate-600">
               <span>📥</span> 下載原始資料 (CSV)
             </a>
-            <a href={`http://localhost:8000${result.csv_outliers_url}`} download className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition-colors text-sm border border-slate-600">
+            <a href={`${result.csv_outliers_url}`} download className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition-colors text-sm border border-slate-600">
               <span>📥</span> 下載錯誤樣本 (CSV)
             </a>
-            <a href={`http://localhost:8000${result.report_url}`} download className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition-colors text-sm border border-slate-600">
+            <a href={`${result.report_url}`} download className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition-colors text-sm border border-slate-600">
               <span>📄</span> 下載分析報表 (TXT)
             </a>
           </div>

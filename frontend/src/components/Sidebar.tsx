@@ -14,7 +14,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/topics")
+    fetch("/api/topics")
       .then((res) => res.json())
       .then((data) => setTopics(data))
       .catch((err) => console.error(err));

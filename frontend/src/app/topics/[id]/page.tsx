@@ -13,7 +13,7 @@ export default function TopicPage() {
   useEffect(() => {
     if (!id) return;
     setLoading(true);
-    fetch(`http://localhost:8000/api/topics/${id}`)
+    fetch(`/api/topics/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Topic not found");
         return res.json();
