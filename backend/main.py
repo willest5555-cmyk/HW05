@@ -16,34 +16,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Mount static images
-app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
-
-# Load data
-DATA_FILE = os.path.join(BASE_DIR, "data.json")
-if os.path.exists(DATA_FILE):
-    with open(DATA_FILE, "r", encoding="utf-8") as f:
-        db = json.load(f)
-else:
-    db = {"general": [], "topics": []}
-
-@app.get("/api/general")
-def get_general_content():
-    return db["general"]
-
-@app.get("/api/topics")
-def get_topics():
-    # Return just the id and title for the sidebar
-    return [{"id": t["id"], "title": t["title"]} for t in db["topics"]]
-
-@app.get("/api/topics/{topic_id}")
-def get_topic(topic_id: str):
-    for t in db["topics"]:
-        if t["id"] == topic_id:
-            return t
-    raise HTTPException(status_code=404, detail="Topic not found")
 
 from crisp_dm_engine import run_pipeline
 
