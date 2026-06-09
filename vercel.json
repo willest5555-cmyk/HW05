@@ -5,15 +5,5 @@
       "src": "frontend/package.json",
       "use": "@vercel/next"
     }
-  ],
-  "rewrites": [
-    {
-      "source": "/api/interactive/(.*)",
-      "destination": "https://hw05-backend.onrender.com/api/interactive/$1"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/frontend/$1"
-    }
   ]
 }
