@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import data from '@/data.json';
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
+  const params = await context.params;
   const topic = data.topics.find((t: any) => t.id === params.id);
   
   if (!topic) {
