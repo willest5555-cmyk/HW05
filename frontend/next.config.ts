@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/api/interactive/:path*',
-        destination: 'http://127.0.0.1:8000/api/interactive/:path*',
+        destination: `${process.env.API_URL || 'https://hw05-backend.onrender.com'}/api/interactive/:path*`,
       },
     ];
   },

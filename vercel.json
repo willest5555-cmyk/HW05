@@ -2,10 +2,6 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/main.py",
-      "use": "@vercel/python"
-    },
-    {
       "src": "frontend/package.json",
       "use": "@vercel/next"
     }
@@ -13,7 +9,7 @@
   "rewrites": [
     {
       "source": "/api/interactive/(.*)",
-      "destination": "/backend/main.py"
+      "destination": "https://hw05-backend.onrender.com/api/interactive/$1"
     },
     {
       "source": "/(.*)",
