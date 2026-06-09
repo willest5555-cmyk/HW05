@@ -16,15 +16,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount static images
-app.mount("/static", StaticFiles(directory="static"), name="static")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Mount outputs for interactive lab
-os.makedirs("outputs", exist_ok=True)
-app.mount("/outputs", StaticFiles(directory="outputs"), name="outputs")
+# Mount static images
+app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
 
 # Load data
-DATA_FILE = "data.json"
+DATA_FILE = os.path.join(BASE_DIR, "data.json")
 if os.path.exists(DATA_FILE):
     with open(DATA_FILE, "r", encoding="utf-8") as f:
         db = json.load(f)

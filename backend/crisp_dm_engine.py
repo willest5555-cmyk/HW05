@@ -1,4 +1,6 @@
 import os
+import io
+import base64
 import json
 import numpy as np
 import pandas as pd
@@ -31,9 +33,6 @@ def plot_decision_boundary(model, X, y, ax):
 
 def run_pipeline(topic_id: str, params: dict) -> dict:
     np.random.seed(params.get('random_seed', 42))
-    output_dir = "outputs"
-    os.makedirs(output_dir, exist_ok=True)
-    img_path = os.path.join(output_dir, f'analysis_{topic_id}.png')
     
     n_samples = params.get('n', 100)
     
@@ -190,26 +189,35 @@ def run_pipeline(topic_id: str, params: dict) -> dict:
         
     ax.set_title(title)
     ax.legend(loc='upper right', framealpha=0.8)
+    # Generate Base64 Image
+    buf = io.BytesIO()
     fig.tight_layout()
-    fig.savefig(img_path, dpi=150)
+    fig.savefig(buf, format='png', dpi=150)
     plt.close(fig)
+    buf.seek(0)
+    img_b64 = base64.b64encode(buf.read()).decode('utf-8')
+    image_uri = f"data:image/png;base64,{img_b64}"
     
-    # Exports
-    df.to_csv(os.path.join(output_dir, f'data_{topic_id}.csv'), index=False)
-    outliers.to_csv(os.path.join(output_dir, f'outliers_{topic_id}.csv'), index=False)
+    # Generate Base64 CSVs
+    csv_data_b64 = base64.b64encode(df.to_csv(index=False).encode('utf-8')).decode('utf-8')
+    csv_data_uri = f"data:text/csv;base64,{csv_data_b64}"
     
-    with open(os.path.join(output_dir, f'report_{topic_id}.txt'), 'w', encoding='utf-8') as f:
-        f.write(f"CRISP-DM Report: {title}\n")
-        f.write("="*50 + "\n")
-        f.write("Metrics:\n")
-        for k, v in metrics.items():
-            f.write(f"- {k}: {v:.4f}\n")
+    csv_outliers_b64 = base64.b64encode(outliers.to_csv(index=False).encode('utf-8')).decode('utf-8')
+    csv_outliers_uri = f"data:text/csv;base64,{csv_outliers_b64}"
+    
+    # Generate Base64 Report
+    report_lines = [f"CRISP-DM Report: {title}", "="*50, "Metrics:"]
+    for k, v in metrics.items():
+        report_lines.append(f"- {k}: {v:.4f}")
+    report_text = "\n".join(report_lines) + "\n"
+    report_b64 = base64.b64encode(report_text.encode('utf-8')).decode('utf-8')
+    report_uri = f"data:text/plain;base64,{report_b64}"
             
     return {
         "metrics": metrics,
         "table_data": outliers.to_dict(orient="records"),
-        "image_url": f"/outputs/analysis_{topic_id}.png",
-        "csv_data_url": f"/outputs/data_{topic_id}.csv",
-        "csv_outliers_url": f"/outputs/outliers_{topic_id}.csv",
-        "report_url": f"/outputs/report_{topic_id}.txt"
+        "image_url": image_uri,
+        "csv_data_url": csv_data_uri,
+        "csv_outliers_url": csv_outliers_uri,
+        "report_url": report_uri
     }

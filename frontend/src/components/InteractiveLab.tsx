@@ -301,13 +301,13 @@ export default function InteractiveLab({ topicId }: InteractiveLabProps) {
 
           {/* Download Buttons */}
           <div className="flex flex-wrap gap-4 pt-4 border-t border-slate-700/50">
-            <a href={`${result.csv_data_url}`} download className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition-colors text-sm border border-slate-600">
+            <a href={`${result.csv_data_url}`} download={`data.csv`} className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition-colors text-sm border border-slate-600">
               <span>📥</span> 下載原始資料 (CSV)
             </a>
-            <a href={`${result.csv_outliers_url}`} download className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition-colors text-sm border border-slate-600">
+            <a href={`${result.csv_outliers_url}`} download={`outliers.csv`} className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition-colors text-sm border border-slate-600">
               <span>📥</span> 下載錯誤樣本 (CSV)
             </a>
-            <a href={`${result.report_url}`} download className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition-colors text-sm border border-slate-600">
+            <a href={`${result.report_url}`} download={`report.txt`} className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition-colors text-sm border border-slate-600">
               <span>📄</span> 下載分析報表 (TXT)
             </a>
           </div>
